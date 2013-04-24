@@ -45,7 +45,7 @@ plotTTS=function(data,my.ylim=c(0.8,1.5),my.col=NULL,norm=NULL,plot=TRUE)
 }
 
 ####
-ReadAccumulation=function(c1=chr1,c2=chr2,c3=chr3,annot=gff,my.col=1,what=c("cs","gff"),cs.type="proximal_cs",length=200,log=T,li=NULL,smooth=0.5)
+ReadAccumulation=function(c1=chr1,c2=chr2,c3=chr3,annot=gff,my.col=1,what=c("cs","gff"),cs.type="proximal_cs",length=200,log=T,li=NULL,smooth=0.5,heatmap=FALSE)
 {
  if(log==T)
  {
@@ -67,6 +67,8 @@ ReadAccumulation=function(c1=chr1,c2=chr2,c3=chr3,annot=gff,my.col=1,what=c("cs"
   annotg=annotg[which(annotg$chr < 4),]
   out=rep(0,((length*2)+1))
   out1=rep(0,nrow(annotg))
+  out2=matrix(0,nrow(annotg),((length*2)+1))
+str(out2)
   for (i in 1:nrow(annotg))
   {
    chr=get(paste("c",annotg$chr[i],sep=''))
@@ -74,6 +76,7 @@ ReadAccumulation=function(c1=chr1,c2=chr2,c3=chr3,annot=gff,my.col=1,what=c("cs"
    {
     range=c((annotg$end[i]-length),(annotg$end[i]+length))
     out=cbind(out,chr[range[1]:range[2]])
+    hold=out[,2]
     out=rowSums(out,na.rm=T)
    }
    else if (annotg$strand[i]=="-")
@@ -81,7 +84,12 @@ ReadAccumulation=function(c1=chr1,c2=chr2,c3=chr3,annot=gff,my.col=1,what=c("cs"
     range=c((annotg$start[i]-length),(annotg$start[i]+length))
     range=range+length(chr)
     out=cbind(out,rev(chr[range[1]:range[2]]))
+    hold=out[,2]
     out=rowSums(out,na.rm=T)
+   }
+   if(heatmap==TRUE)
+   {
+    out2[i,]=hold
    }
   } 
  }
@@ -118,6 +126,10 @@ ReadAccumulation=function(c1=chr1,c2=chr2,c3=chr3,annot=gff,my.col=1,what=c("cs"
  if(is.null(smooth)==F)
  {
   out=smooth.spline(x,out, spar=smooth)$y
+ }
+ if(heatmap==TRUE)
+ {
+  out=out2 
  }
  return(round(out,2))
 }
