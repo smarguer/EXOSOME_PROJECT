@@ -68,7 +68,6 @@ ReadAccumulation=function(c1=chr1,c2=chr2,c3=chr3,annot=gff,my.col=1,what=c("cs"
   out=rep(0,((length*2)+1))
   out1=rep(0,nrow(annotg))
   out2=matrix(0,nrow(annotg),((length*2)+1))
-str(out2)
   for (i in 1:nrow(annotg))
   {
    chr=get(paste("c",annotg$chr[i],sep=''))
