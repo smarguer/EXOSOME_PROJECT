@@ -104,6 +104,28 @@ if (flat!=1)
  return(out)
 
 }
+#############################
+#Average.SEQ.all function
+#############################
+##ARGUMENTS:
+#input=list(chr1,chr2,chr3): takes usual chromosome files.
+#unlog=TRUE: set to FALSE if data are linear. Requires function toLINEAR().
+#sub_col=NULL: set to the column of the input files you want to analyse in case they are not vectors.
+#gffa=mygff: your gff name goes here.
+#flank=500: the length of the region to analyse upstream and downstream of the gene. If set to NULL then the entire intergenic region is used.
+#nbin=60: number of bins in the gene (default is not particularly good).
+#fbin=40: number of bins in flanking regions (default is not particularly good).
+#li=NULL: you can give a gene list here.
+#type=c("classic","half","set_distance"): "classic": the usual one. "half": treats the first half and the second half of genes independently. "set": uses a set interval downstream of the TSS and upstream of the TTS (defined by dist).
+#dist=300: interval used if type="set".
+#test_chr=NULL: for debuging.
+##OUTPUT
+#col1: the sum of all hits/nt in the bin
+#col2: the sum of all nt in the bin
+#col3: the sum of all col1/col2 ratios
+#col4: col3 divided by the first line of col3
+#col5: some numbers for plotting (not finished)
+#col6: col3 divided by the last bin of the 5' flank chunk of bins
 ############################
 Average.SEQ.all<-function(input=list(chr1,chr2,chr3),unlog=TRUE,sub_col=NULL, gffa=mygff, flank=500, nbin=60, fbin=40, li=NULL, type=c("classic","half","set_distance"),dist=300,test_chr=NULL)
 {
