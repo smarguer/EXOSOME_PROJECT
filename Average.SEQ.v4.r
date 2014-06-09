@@ -1,7 +1,19 @@
-plot.Average.SEQ=function(data,my.ylim=c(0.5,2),my.col=4,what="gene",my.list=NULL,para=c("cl",500,20,10,300),compute=FALSE,help=FALSE,my.log=TRUE,my.gff=gff,my.type="b",leg=TRUE,title=NULL,my.cex=1,my.lwd=1)
+plot.Average.SEQ=function(data,my.ylim=c(0.5,2),my.col=4,what="gene",my.list=NULL,para=c("cl",500,20,10,300),compute=FALSE,help=FALSE,my.log=TRUE,my.gff=gff,my.type="b",leg=TRUE,title=NULL,my.cex=1,my.lwd=1,my.colour=NULL)
 {
+ if(is.null(my.colour)==TRUE)
+ {
  #mycol=c("purple","brown","red","orange","yellow","light green","light blue", "blue", "dark blue","black","dark grey","grey","purple","brown","pink")
- mycol=c("black","red","blue","green","orange")
+##colors for chip-seq 1 exosome##
+ #mycol=c("dark grey","dark blue","dark green","orange")
+ mycol=c("dark grey","dark grey","dark blue","dark blue","dark green","dark green","purple","purple","orange","orange","light grey","light grey","light grey")
+##colors for chip-seq tfs exosome##
+ #mycol=c("dark grey","dark blue","red","purple")
+ #mycol=c("light grey","grey","dark grey","black","yellow","orange","red","purple")
+ }
+ else
+ {
+  mycol=my.colour
+ }
  if(help==TRUE)
  {
   print("para arguments are: type,flank,nbin,fbin,dist.")
@@ -21,7 +33,9 @@ plot.Average.SEQ=function(data,my.ylim=c(0.5,2),my.col=4,what="gene",my.list=NUL
   data1=data
  }
  
- plot(data1[[1]][,my.col],type=my.type,pch=20,col=mycol[1],ylim=my.ylim,main=title,cex=my.cex,lwd=my.lwd,ylab="A.U.",xlab="Bins")
+ #plot(data1[[1]][,my.col],type=my.type,pch=20,col=mycol[1],ylim=my.ylim,main=title,cex=my.cex,lwd=my.lwd,ylab="A.U.",xlab="Bins",log="",cex.axis=2.5,cex.lab=3)
+ plot(data1[[1]][,my.col],type=my.type,pch=20,col=mycol[1],ylim=my.ylim,main=title,cex=my.cex,lwd=my.lwd,ylab="",xlab="",log="",cex.axis=1.5,cex.lab=3)
+ legend(x="bottomright",legend=paste("n = ",data1[[1]][4, 5],sep=''),bty="n",cex=1.5)
  if(length(data1) != 1)
  {
   for(i in 2:length(data1))
@@ -31,22 +45,22 @@ plot.Average.SEQ=function(data,my.ylim=c(0.5,2),my.col=4,what="gene",my.list=NUL
  }
  if(grepl(para[1],"classic")==TRUE)
  {
-  abline(v=data1[[1]][1:2,5],col="black",lwd=3)
+  #abline(v=data1[[1]][1:2,5],col="black",lwd=3)
   if(leg==TRUE)
   {
    #legend(x="bottomright",legend=(paste(data1[[1]][3,5],'bps',sep='')),cex=1.5,bty="n")
-   legend(x="bottomleft",legend=(paste(data1[[1]][3,5],'bps',sep='')),cex=0.8,bty="n")
-   legend(x="bottom",legend=what,cex=3,bty="n")
+   #legend(x="bottomleft",legend=(paste(data1[[1]][3,5],'bps',sep='')),cex=0.8,bty="n")
+   #legend(x="bottom",legend=what,cex=3,bty="n")
   }
  }
  else
  {
-  abline(v=c((as.numeric(para[4])+0.5),(as.numeric(para[4])+(2*as.numeric(para[3]))+3)),col="black",lwd=3)
-  abline(v=c((as.numeric(para[4])+as.numeric(para[3])+1),(as.numeric(para[4])+as.numeric(para[3])+3)),col="grey",lwd=3)
+  #abline(v=c((as.numeric(para[4])+0.5),(as.numeric(para[4])+(2*as.numeric(para[3]))+3)),col="black",lwd=3)
+  #abline(v=c((as.numeric(para[4])+as.numeric(para[3])+1),(as.numeric(para[4])+as.numeric(para[3])+3)),col="grey",lwd=3)
   if(leg==TRUE)
   {
    #legend(x="bottomright",legend=(paste(data1[[1]][3,5],'bps',sep='')),cex=1.5,bty="n")
-   legend(x="bottomleft",legend=(paste(data1[[1]][3,5],'bps',sep='')),cex=0.8,bty="n")
+   #legend(x="bottomleft",legend=(paste(data1[[1]][3,5],'bps',sep='')),cex=0.8,bty="n")
   }
 #  legend(x="bottom",legend=what,cex=3,bty="n")
  }
@@ -177,7 +191,10 @@ Average.SEQ.all<-function(input=list(chr1,chr2,chr3),unlog=TRUE,sub_col=NULL, gf
   gffg=gffg[which(gffg$Name %in% li),]
   print(paste("analysing ",nrow(gffg)," genes out of ",length(li)," genes in list.",sep=''))
  }
- 
+ else
+ {
+  print(paste("analysing ",nrow(gffg),".",sep='')) 
+ } 
 #####TYPE OF PROFILE############# 
 
   if(grepl(type,"classic")==TRUE)
@@ -465,6 +482,7 @@ if((length(up)==1)|(length(dwn)==1)){next}
  {
   bars[3]=0
  }
+ bars[4]=nrow(gffg)
  out=cbind(out,bars)
 #print(out)
  out=cbind(out,round((out[,3]/out[fbin,3]),2)) 

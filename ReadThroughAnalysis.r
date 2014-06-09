@@ -1,7 +1,7 @@
 
 #load("NORM_0304_ALL_280512.rda")
-load("../EXOSOME_PROJECT/RT_ann_070612.rda")
-source("toLINEAR.r")
+#load("../EXOSOME_PROJECT/RT_ann_070612.rda")
+#source("toLINEAR.r")
 
 
 
@@ -177,17 +177,17 @@ RT_signal=function(annot,c1=chr1,c2=chr2,c3=chr3,cut=1,inter=50,win=20000)
 ##########################################################################################################################
 
 #for (i in c(1,7))
-for (i in 1:20)
+#for (i in 1:20)
 #for (i in 1:41)
 #for (i in 1)
-{
- print(i)
- assign(paste("RT",i,sep=''),RT_signal(c1=toLINEAR(chr1[,i]),c2=toLINEAR(chr2[,i]),c3=toLINEAR(chr3[,i]),annot=ann,inter=25))
+#{
+# print(i)
+# assign(paste("RT",i,sep=''),RT_signal(c1=toLINEAR(chr1[,i]),c2=toLINEAR(chr2[,i]),c3=toLINEAR(chr3[,i]),annot=ann,inter=25))
 # if (i==1)
 # {
 #  save(RT1,file="RT1_AVERAGE_260612.rda")
 # }
-}
+#}
 
 #par(mfrow=c(3,7))
 #names=colnames(chr1)
@@ -219,7 +219,7 @@ if(PLOT==TRUE)
 
 #save(list=c("RT1","RT2","RT3","RT4","RT5","RT6","RT7","RT8","RT9","RT10","RT11","RT12","RT13","RT14","RT15","RT16","RT17","RT18","RT19","RT20","RT21","RT22","RT23","RT24","RT25","RT26","RT27","RT28","RT29","RT30","RT31","RT32","RT33","RT34","RT35","RT36","RT37","RT38","RT39","RT40","RT41"),file="RT_140612.rda")
 #save(list=c("RT1","RT2","RT3","RT4","RT5","RT6","RT7","RT8","RT9","RT10","RT11","RT12","RT13","RT14","RT15","RT16","RT17","RT18","RT19","RT20"),file="RT_AVERAGE_260612.rda")
-format=TRUE
+format=FALSE
 if(format==TRUE)
 {
 RT_match=data.frame(stringsAsFactors=F,
